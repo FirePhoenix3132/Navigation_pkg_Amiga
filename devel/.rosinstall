@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/cosmos/catkin_ws_amiga/devel/setup.sh

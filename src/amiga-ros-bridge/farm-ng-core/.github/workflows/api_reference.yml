@@ -1,0 +1,37 @@
+on:
+  push:
+    branches:
+      - main
+      - farm-ng-core-docs
+      - api-reference
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04]
+      fail-fast: false
+
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: "recursive"
+
+      - name: build doxygen
+        run: |
+          sudo apt-get install doxygen liblua5.3-dev ragel graphviz
+          cd docs/api_reference/
+          ./make_docs.sh
+
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.TO_PUSH_TO_API_CORE }}
+          external_repository: farm-ng/core-api
+          publish_dir: docs/api_reference/html
+          force_orphan: true

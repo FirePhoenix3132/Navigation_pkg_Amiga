@@ -1,0 +1,15 @@
+{
+    "name": "gps",
+    "port": 50010,
+    "host": "172.16.109.92",
+    "log_level": "INFO",
+    "subscriptions": [
+        {
+            "uri": {
+                "path": "/pvt",
+                "query": "service_name=gps"
+            },
+            "every_n": 1
+        }
+    ]
+}

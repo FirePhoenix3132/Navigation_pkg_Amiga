@@ -1,0 +1,71 @@
+{
+    "configs": [
+        {
+            "name": "canbus",
+            "port": 6001,
+            "host": "liberty-level"
+        },
+        {
+            "name": "gps",
+            "port": 3001,
+            "host": "liberty-level"
+        },
+        {
+            "name": "oak1",
+            "port": 50011,
+            "host": "liberty-level"
+        },
+        {
+            "name": "filter",
+            "port": 20001,
+            "host": "liberty-level"
+        },
+        {
+            "name": "amiga_subscriptions",
+            "subscriptions": [
+                {
+                    "uri": {
+                        "path": "/twist",
+                        "query": "service_name=canbus"
+                    },
+                    "every_n": 1
+                },
+                {
+                    "uri": {
+                        "path": "/state",
+                        "query": "service_name=filter"
+                    },
+                    "every_n": 1
+                },
+                {
+                    "uri": {
+                        "path": "/pvt",
+                        "query": "service_name=gps"
+                    },
+                    "every_n": 1
+                },
+                {
+                    "uri": {
+                        "path": "/imu",
+                        "query": "service_name=oak1"
+                    },
+                    "every_n": 1
+                },
+                {
+                    "uri": {
+                        "path": "/left",
+                        "query": "service_name=oak1"
+                    },
+                    "every_n": 1
+                },
+                {
+                    "uri": {
+                        "path": "/rgb",
+                        "query": "service_name=oak1"
+                    },
+                    "every_n": 1
+                }
+            ]
+        }
+    ]
+}

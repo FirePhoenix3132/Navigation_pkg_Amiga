@@ -1,0 +1,85 @@
+repos:
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+    - id: black
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.1.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+        exclude: (thirdparty|cpp/sophus2)/.*$
+      - id: check-yaml
+      - id: check-json
+        exclude: docs/.*$
+
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.1.13
+    hooks:
+      - id: insert-license
+        files: cpp/sophus/.*\.(h|hpp|cpp|proto|ipp)$
+        exclude: (thirdparty|sympy/cpp_gencode)/.*$
+        args:
+          - --comment-style
+          - //
+          - --license-filepath
+          - sophus2_license_header.txt
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.1.13
+    hooks:
+      - id: insert-license
+        files: \.(h|cpp|proto|ipp)$
+        exclude: (thirdparty|cpp/sophus)/.*$
+        args:
+          - --comment-style
+          - //
+          - --license-filepath
+          - license_header.txt
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v14.0.0
+    hooks:
+      - id: clang-format
+        files: \.(h|cpp|ipp)
+        exclude: (cpp/sophus/sympy|thirdparty)/.*$
+  - repo: local
+    hooks:
+      - id: pragma-once
+        name: pragma once check
+        entry: "#pragma once"
+        language: pygrep
+        exclude: thirdparty/.*$
+        files: \.h$
+        args: [--negate]
+      - id: no-c-std-lib
+        name: c standard library check
+        exclude: thirdparty/.*$
+        entry: |
+          (?x)<(
+            assert|complex|ctype|errno|fenv|float|inttypes|iso646|limits|locale|math|setjmp|signal|
+            stdalign|stdarg|stdatomic|stdbool|stddef|stdint|stdio|stdlib|stdnoreturn|string|tgmath|
+            threads|time|uchar|wchar|wctype
+          ).h>
+        language: pygrep
+        files: \.(h|cpp)$
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v2.1.1
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+        args: [feat, fix, docs, style, refactor, perf, test, ci, build, chore, revert]
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.1.0
+    hooks:
+      - id: codespell
+        exclude: (thirdparty|cpp/sophus2)/.*$
+        args:
+          - --ignore-words-list
+          - "te,tring,crate"
+          - --skip
+          - "cpp/thirdparty/*,docs/package-lock.json"
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.0.284
+    hooks:
+      - id: ruff
+        exclude: (thirdparty|cpp/sophus)/.*$
+        args: [--fix, --exit-non-zero-on-fix]
